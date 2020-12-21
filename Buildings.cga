@@ -1,0 +1,1025 @@
+/**
+ * File:    test_rule.cga
+ * Created: 16 Nov 2020 20:50:13 GMT
+ * Author:  Brian Froeb
+ */
+
+version "2019.1"
+
+#const feet = 3.281
+const sqfeet = 10.764
+
+
+
+## NOTES ##
+## Script assumes data is in local state plane feet projection
+## @Distance annotation changes adds "feet" units in displac based on scene projection
+## Distances read in through display always come in as meters, regardless of projection
+
+##########################
+### Visualization Type ###
+##########################
+
+@Group("Visualization Type",1)
+@Order(1)
+@Enum("Floors", "Massing", "Massing w/ Floors", "Massing w/ Colors")
+attr Visualization_Type = "Massing"
+@Order(2)
+@Range(min=0, max=1, step=0.1)
+attr Massing_Transparency = 0.2
+
+
+################
+### LAND USE ###
+################
+
+@Group("Land Use Type",2)
+@Enum("Single Family Residential", "Multifamily Residential", 
+	  "Retail", "Office", "Industrial", "Institutional", "Hotel", "Parking Garage", 
+	  "Parking Lot","Mixed-Retail", "Mixed-Office", "Mixed-Parking",
+	  "Open Space")
+attr Land_Use = "Mixed-Retail"
+
+
+#######################
+### BUILDING HEIGHT ###
+#######################
+
+@Group("Building Height", 3)
+@Hidden
+attr floorheight = 3.6576 #12 feet
+@Range(min = 0, max = 20, stepsize = 1)
+attr Floors = 1
+@Hidden
+BuildingHeight = Floors * floorheight
+
+@Group("Floors", 4)
+@Order(1)
+@Range(min=0, max=10, stepsize=1)
+@Handle(shape = Building, align=right)
+attr Parking_Floors = 0
+@Order(2)
+@Discription("Only used in mixed use buildings")
+@Range(min=0, max=20, stepsize=1)
+attr Retail_Floors = 2
+
+#####################
+### Building Type ###
+#####################
+
+@Group("Building Type", 5)
+@Enum("Full", "Perimeter", "U Shaped", "L Shaped", "None")
+attr Building_Type = "Full"
+@Enum("Parking", "Open Space")
+attr Remainder_Use = "Open Space"
+
+######################
+### Setback Widths ###
+######################
+
+@Group("Setback Widths", 6)
+@Order(1)
+@Enum("Parking", "Frontage", "Open Space")
+attr Street_Set_Use = "Frontage"
+@Order(2)
+@Distance
+@Range(min = 0, max = 100, stepsize=0.1524)
+attr distanceStreet = 6.096
+
+@Order(3)
+@Enum("Parking", "Frontage", "Open Space")
+attr Build_Set_Use = "Frontage"
+@Order(4)
+@Distance
+@Range(min = 0, max = 100, stepsize=0.1524)
+attr distanceBuildings = 6.096
+
+@Order(5)
+@Enum("Parking", "Frontage", "Open Space")
+attr Front_Set_Use = "Frontage"
+
+@Order(6)
+@Distance
+@Range(min = 0, max = 100, stepsize=0.1524)
+attr distanceFront = 0
+
+@Order(7)
+@Enum("Parking", "Frontage", "Open Space")
+attr Rear_Set_Use = "Frontage"
+
+@Order(8)
+@Distance
+@Range(min = 0, max = 100, stepsize=0.1524)
+attr distanceRear = 0
+
+@Order(9)
+@Enum("Parking", "Frontage", "Open Space")
+attr Right_Set_Use = "Frontage"
+
+@Order(10)
+@Distance
+@Range(min = 0, max = 100, stepsize=0.1524)
+attr distanceRight = 0
+
+@Order(11)
+@Enum("Parking", "Frontage", "Open Space")
+attr Left_Set_Use = "Frontage"
+
+@Order(12)
+@Distance
+@Range(min = 0, max = 100, stepsize=0.1524)
+attr distanceLeft = 0
+
+###################################
+### Perimeter Building Settings ###
+###################################
+
+#@Hidden
+#attr parcel_width = 0
+#@Hidden
+#attr perimeter_default = 0
+
+@Group("Shaped Building Widths", 7)
+@Order(1)
+@Distance
+@Handle()
+@Range(min=0, max=152.4, stepsize=0.1524)
+attr Front_Width = 22.86
+
+@Order(2)
+@Distance
+@Handle()
+@Range(min=0, max=152.4, stepsize=0.1524)
+attr Right_Width = 22.86
+
+@Order(3)
+@Distance
+@Handle()
+@Range(min=0, max=152.4, stepsize=0.1524)
+attr Back_Width = 22.86
+
+@Order(4)
+@Distance
+@Handle()
+@Range(min=0, max=152.4, stepsize=0.1524)
+attr Left_Width = 22.86
+
+#######################
+### Unit Conversion ###
+#######################
+
+@Group("Square Feet Per Unit", 8)
+@Description("Provide the conversion from Square Feet to Units of Housing, Jobs, etc.")
+@Order(1)
+@Range(min=200, max=1000, stepsize=10)
+attr Square_Foot_Per_Job_Retail = 500
+@Order(2)
+@Range(min=200, max=1000, stepsize=10)
+attr Square_Foot_Per_Job_Office = 333
+@Order(3)
+@Range(min=200, max=1000, stepsize=10)
+attr Square_Foot_Per_Job_Industrial = 500
+@Order(4)
+@Range(min=200, max=1000, stepsize=10)
+attr Square_Foot_Per_Job_Institutional = 500
+@Order(5)
+@Range(min=200, max=1000, stepsize=10)
+attr Square_Foot_Per_DU_SF = 2000
+@Order(6)
+@Range(min=200, max=1000, stepsize=10)
+attr Square_Foot_Per_DU_MS = 1000
+@Order(7)
+@Range(min=200, max=1000, stepsize=10)
+attr Square_Foot_Per_Parking = 400
+
+############################
+### Parcel-Level Metrics ###
+############################
+
+@Hidden
+attr building_footprint = 0
+@Hidden
+attr retail_floor = 0
+@Hidden
+attr multi_res_floor = 0
+@Hidden
+attr single_res_floor = 0
+@Hidden
+attr parking_floor = 0
+@Hidden 
+attr openspace_footprint = 0
+@Hidden
+attr office_floor = 0
+@Hidden
+attr hotel_floor = 0
+@Hidden
+attr industrial_floor = 0
+@Hidden
+attr street_front = 0
+
+##########################
+### Visuzlation Rules  ###
+##########################
+@StartRule
+LotInner -->
+	Lot
+
+@StartRule
+Lot --> 
+	case Land_Use == "Parking Lot":
+		report("Parking Parcel Area", geometry.area * sqfeet) 
+		report("Total Parcel Area", geometry.area * sqfeet) 
+		ParkingLot
+	case Land_Use == "Open Space":
+		report("Open Space Parcel Area", geometry.area * sqfeet)
+		report("Total Parcel Area", geometry.area * sqfeet) 
+		OpenSpace
+
+	else:
+        case Land_Use == "Single Family Residential":
+            case Street_Set_Use == "Parking":
+                report("Single Family Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: Parking 
+                | remainder: SubParcel}
+            case Street_Set_Use == "Open Space":
+                report("Single Family Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: OpenSpace 
+                | remainder: SubParcel}
+            else: 
+                report("Single Family Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: StreetFront 
+                | remainder: SubParcel}
+
+        case Land_Use == "Multifamily Residential":
+            case Street_Set_Use == "Parking":
+                report("Multifamily Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: Parking 
+                | remainder: SubParcel}
+            case Street_Set_Use == "Open Space":
+                report("Multifamily Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: OpenSpace 
+                | remainder: SubParcel}
+            else: 
+                report("Multifamily Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: StreetFront 
+                | remainder: SubParcel}
+
+        case Land_Use == "Retail":
+            case Street_Set_Use == "Parking":
+                report("Commercial Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: Parking 
+                | remainder: SubParcel}
+            case Street_Set_Use == "Open Space":
+                report("Commercial Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: OpenSpace 
+                | remainder: SubParcel}
+            else: 
+                report("Commercial Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: StreetFront 
+                | remainder: SubParcel}
+
+        case Land_Use == "Office":
+            case Street_Set_Use == "Parking":
+                report("Office Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: Parking 
+                | remainder: SubParcel}
+            case Street_Set_Use == "Open Space":
+                report("Office Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: OpenSpace 
+                | remainder: SubParcel}
+            else: 
+                report("Office Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: StreetFront 
+                | remainder: SubParcel}
+
+        case Land_Use == "Industrial":
+            case Street_Set_Use == "Parking":
+                report("Industrial Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: Parking 
+                | remainder: SubParcel}
+            case Street_Set_Use == "Open Space":
+                report("Industrial Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: OpenSpace 
+                | remainder: SubParcel}
+            else: 
+                report("Industrial Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: StreetFront 
+                | remainder: SubParcel}
+
+        case Land_Use == "Institutional":
+            case Street_Set_Use == "Parking":
+                report("Institutional Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: Parking 
+                | remainder: SubParcel}
+            case Street_Set_Use == "Open Space":
+                report("Institutional Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: OpenSpace 
+                | remainder: SubParcel}
+            else: 
+                report("Institutional Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: StreetFront 
+                | remainder: SubParcel}
+
+        case Land_Use == "Hotel":
+            case Street_Set_Use == "Parking":
+                report("Hotel Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: Parking 
+                | remainder: SubParcel}
+            case Street_Set_Use == "Open Space":
+                report("Hotel Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: OpenSpace 
+                | remainder: SubParcel}
+            else: 
+                report("Hotel Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: StreetFront 
+                | remainder: SubParcel}
+
+        case Land_Use == "Parking Garage":
+            case Street_Set_Use == "Parking":
+                report("Parking Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: Parking 
+                | remainder: SubParcel}
+            case Street_Set_Use == "Open Space":
+                report("Parking Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: OpenSpace 
+                | remainder: SubParcel}
+            else: 
+                report("Parking Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: StreetFront 
+                | remainder: SubParcel}
+
+        case Land_Use == "Mixed-Retail":
+            case Street_Set_Use == "Parking":
+                report("Commercial Parcel Area", geometry.area * sqfeet)
+                report("Multifamily Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: Parking 
+                | remainder: SubParcel}
+            case Street_Set_Use == "Open Space":
+                report("Commercial Parcel Area", geometry.area * sqfeet)
+                report("Multifamily Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: OpenSpace 
+                | remainder: SubParcel}
+            else: 
+                report("Commercial Parcel Area", geometry.area * sqfeet)
+                report("Multifamily Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: StreetFront 
+                | remainder: SubParcel}
+
+        case Land_Use == "Mixed-Office":
+            case Street_Set_Use == "Parking":
+                report("Commercial Parcel Area", geometry.area * sqfeet)
+                report("Office Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: Parking 
+                | remainder: SubParcel}
+            case Street_Set_Use == "Open Space":
+                report("Commercial Parcel Area", geometry.area * sqfeet)
+                report("Office Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: OpenSpace 
+                | remainder: SubParcel}
+            else: 
+                report("Commercial Parcel Area", geometry.area * sqfeet)
+                report("Office Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: StreetFront 
+                | remainder: SubParcel}
+
+        else: # Mixed-Parking
+            case Street_Set_Use == "Parking":
+                report("Commercial Parcel Area", geometry.area * sqfeet)
+                report("Parking Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: Parking 
+                | remainder: SubParcel}
+            case Street_Set_Use == "Open Space":
+                report("Commercial Parcel Area", geometry.area * sqfeet)
+                report("Parking Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: OpenSpace 
+                | remainder: SubParcel}
+            else: 
+                report("Commercial Parcel Area", geometry.area * sqfeet)
+                report("Parking Parcel Area", geometry.area * sqfeet)
+                report("Total Parcel Area", geometry.area * sqfeet)
+                setback(distanceStreet)
+                {streetSide: StreetFront 
+                | remainder: SubParcel}
+			
+StreetFront -->
+	set(street_front, geometry.area * sqfeet)
+	report("Street Frontage Area", street_front)
+	color("#cccccc")
+
+#change the green			
+OpenSpace -->
+	set(openspace_footprint, geometry.area * sqfeet)
+	report("Total Open Space", openspace_footprint)
+	color("#8CBA8C")
+
+#add Total Parking Floor Area	
+ParkingLot -->
+	set(parking_floor, geometry.area * sqfeet)
+	report("Total Parking Area", parking_floor)
+	report("Total Parking Spaces", parking_floor / Square_Foot_Per_Parking)
+	color("#878787")
+		
+SubParcel -->
+	case Build_Set_Use == "Parking":
+	setback(distanceBuildings)
+			{noStreetSide: Parking
+			| remainder: RearSetBack}
+	case Build_Set_Use == "Open Space":
+		setback(distanceBuildings)
+			{noStreetSide: OpenSpace
+			| remainder: RearSetBack}
+	else:
+		setback(distanceBuildings)
+			{noStreetSide: StreetFront
+			| remainder: RearSetBack}
+		
+RearSetBack -->
+	case Rear_Set_Use == "Open Space":
+		setback(distanceRear)
+			{back: OpenSpace
+			| remainder: FrontSetBack}	
+	case Rear_Set_Use == "Parking":
+		setback(distanceRear)
+			{back: ParkingLot
+			| remainder: FrontSetBack}	
+	else: 
+		setback(distanceRear)
+			{back: StreetFront
+			| remainder: FrontSetBack}	
+		
+FrontSetBack -->
+	case Front_Set_Use == "Open Space":
+		setback(distanceFront)
+			{front: OpenSpace
+			| remainder: RightSetBack}	
+	case Front_Set_Use == "Parking":
+		setback(distanceFront)
+			{front: ParkingLot
+			| remainder: RightSetBack}	
+	else: 
+		setback(distanceFront)
+			{front: StreetFront
+			| remainder: RightSetBack}	
+			
+RightSetBack -->
+	case Right_Set_Use == "Open Space":
+		setback(distanceRight)
+			{right: OpenSpace
+			| remainder: LeftSetBack}	
+	case Right_Set_Use == "Parking":
+		setback(distanceRight)
+			{right: ParkingLot
+			| remainder: LeftSetBack}	
+	else: 
+		setback(distanceRight)
+			{right: StreetFront
+			| remainder: LeftSetBack}		
+			
+LeftSetBack -->
+	case Left_Set_Use == "Open Space":
+		setback(distanceLeft)
+			{left: OpenSpace
+			| remainder: BuildingType}	
+	case Left_Set_Use == "Parking":
+		setback(distanceLeft)
+			{left: ParkingLot
+			| remainder: BuildingType}	
+	else: 
+		setback(distanceLeft)
+			{left: StreetFront
+			| remainder: BuildingType}			
+			
+#################################	
+### Building Tye and Land Use ###
+#################################
+BuildingType -->
+	case Building_Type == "Full" : FullBuilding
+	case Building_Type == "Perimeter" : Perimeter
+	case Building_Type == "U Shaped" : U_Shaped
+	case Building_Type == "L Shaped" : L_Shaped
+	else: color("#CEF6E3")
+	
+FullBuilding-->
+	Extrude
+	
+Perimeter -->
+	case Remainder_Use == "Open Space":
+		shapeO(Front_Width,
+				Right_Width, 
+				Back_Width, 
+				Left_Width)
+			{ shape : Extrude | remainder : OpenSpace }	
+	else:
+		shapeO(Front_Width,
+				Right_Width, 
+				Back_Width, 
+				Left_Width)
+			{ shape : Extrude | remainder : ParkingLot }
+	
+U_Shaped -->
+	case Remainder_Use == "Open Space":
+		shapeU(Front_Width,
+				Right_Width, 
+				Left_Width)
+			{shape : Extrude | remainder : OpenSpace }
+	else:
+		shapeU(Front_Width,
+				Right_Width, 
+				Left_Width)
+			{shape : Extrude | remainder : ParkingLot }
+		
+L_Shaped -->
+	case Remainder_Use == "Open Space":
+		shapeL(Front_Width, 
+				Left_Width)
+			{shape : Extrude | remainder : OpenSpace }
+	else:
+		shapeL(Front_Width, 
+				Left_Width)
+			{shape : Extrude | remainder : ParkingLot }
+
+
+## a case report for building footprint area for each landuse type
+Extrude -->
+	case Land_Use == "Single Family Residential":
+		set(building_footprint, geometry.area * sqfeet)
+		report("Single Family Footprint Area", building_footprint)
+		report("Total Building Footprint Area", building_footprint)
+		report("Total Floor Area", building_footprint * Floors)
+		extrude(BuildingHeight) Building
+		comp(f){ top: Roof }
+	case Land_Use == "Multifamily Residential":
+		set(building_footprint, geometry.area * sqfeet)
+		report("Multifamily Footprint Area", building_footprint)
+		report("Total Building Footprint Area", building_footprint)
+		report("Total Floor Area", building_footprint * Floors)
+		extrude(BuildingHeight) Building
+		comp(f){ top: Roof }
+	case Land_Use == "Retail":
+		set(building_footprint, geometry.area * sqfeet)
+		report("Commercial Footprint Area", building_footprint)
+		report("Total Building Footprint Area", building_footprint)
+		report("Total Floor Area", building_footprint * Floors)
+		extrude(BuildingHeight) Building
+		comp(f){ top: Roof }
+	case Land_Use == "Office":
+		set(building_footprint, geometry.area * sqfeet)
+		report("Office Footprint Area", building_footprint)
+		report("Total Building Footprint Area", building_footprint)
+		report("Total Floor Area", building_footprint * Floors)
+		extrude(BuildingHeight) Building
+		comp(f){ top: Roof }
+	case Land_Use == "Industrial":
+		set(building_footprint, geometry.area * sqfeet)
+		report("Industrial Footprint Area", building_footprint)
+		report("Total Building Footprint Area", building_footprint)
+		report("Total Floor Area", building_footprint * Floors)
+		extrude(BuildingHeight) Building
+		comp(f){ top: Roof }	
+	case Land_Use == "Institutional":
+		set(building_footprint, geometry.area * sqfeet)
+		report("Institutional Footprint Area", building_footprint)
+		report("Total Building Footprint Area", building_footprint)
+		report("Total Floor Area", building_footprint * Floors)
+		extrude(BuildingHeight) Building
+		comp(f){ top: Roof }
+	case Land_Use == "Hotel":
+		set(building_footprint, geometry.area * sqfeet)
+		report("Hotel Footprint Area", building_footprint)
+		report("Total Building Footprint Area", building_footprint)
+		report("Total Floor Area", building_footprint * Floors)
+		extrude(BuildingHeight) Building
+		comp(f){ top: Roof }
+	case Land_Use == "Parking Garage":
+		set(building_footprint, geometry.area * sqfeet)
+		report("Parking Footprint Area", building_footprint)
+		report("Total Building Footprint Area", building_footprint)
+		report("Total Floor Area", building_footprint * Floors)
+		extrude(BuildingHeight) Building
+		comp(f){ top: Roof }
+	case Land_Use == "Mixed-Retail":
+		set(building_footprint, geometry.area * sqfeet)
+		report("Commercial Footprint Area", building_footprint)
+		report("Multifamily Footprint Area", building_footprint)
+		report("Total Building Footprint Area", building_footprint)
+		report("Total Floor Area", building_footprint * Floors)
+		extrude(BuildingHeight) Building
+		comp(f){ top: Roof }
+	case Land_Use == "Mixed-Office":
+		set(building_footprint, geometry.area * sqfeet)
+		report("Commercial Footprint Area", building_footprint)
+		report("Office Footprint Area", building_footprint)
+		report("Total Building Footprint Area", building_footprint)
+		report("Total Floor Area", building_footprint * Floors)
+		extrude(BuildingHeight) Building
+		comp(f){ top: Roof }
+	else: # Mixed-Parking
+		set(building_footprint, geometry.area * sqfeet)
+		report("Commercial Footprint Area", building_footprint)
+		report("Parking Footprint Area", building_footprint)
+		report("Total Building Footprint Area", building_footprint)
+		report("Total Floor Area", building_footprint * Floors)
+		extrude(BuildingHeight) Building
+		comp(f){ top: Roof }
+
+Roof -->
+	case Land_Use != "Single Family Residential":
+		NIL
+	else:
+		HouseRoof
+	
+	# add the yello color
+HouseRoof -->
+	40%: 
+		case Visualization_Type == "Massing w/Colors":
+			roofHip(30,1)
+			color("#efdd87")
+		else: 
+			roofHip(30,1)
+	else: 
+		case Visualization_Type == "Massing w/Colors":
+			roofGable(30,1)
+			color("#efdd87")
+		else: 
+			roofGable(30,1)
+	
+Building-->
+	Mass
+	split(y) { floorheight : FloorSplits }*
+	
+FloorSplits --> comp(f){ bottom : reverseNormals Floor }
+
+#######################
+### Set Floor Types ###
+#######################
+
+Floor-->
+	case Land_Use == "Single Family Residential":
+		case split.index < Parking_Floors : Parking
+		else: Single_Res_Floor
+
+	case Land_Use == "Multifamily Residential":
+		case split.index < Parking_Floors : Parking
+		else: Multi_Res_Floor
+		
+	case Land_Use == "Retail":
+		case split.index < Parking_Floors : Parking
+		else: Retail_Floor
+	
+	case Land_Use == "Office":
+		case split.index < Parking_Floors: Parking
+		else: Office_Floor
+		
+	case Land_Use == "Industrial":
+		case split.index < Parking_Floors: Parking
+		else: Industrial_Floor
+		
+	case Land_Use == "Institutional":
+		case split.index < Parking_Floors: Parking
+		else: Institutional_Floor
+		
+	case Land_Use == "Hotel":
+		case split.index < Parking_Floors: Parking
+		else: Hotel_Floor
+	
+	case Land_Use == "Parking Garage":
+		case split.index < Parking_Floors: Parking
+		else: Parking
+		
+	case Land_Use == "Mixed-Office":
+		case split.index < Parking_Floors: Parking
+		case (split.index >= Parking_Floors) && (split.index < Parking_Floors + Retail_Floors) : Retail_Floor
+		else: Office_Floor
+	
+	case Land_Use == "Mixed-Parking":
+		case split.index < Parking_Floors: Parking
+		case (split.index >= Parking_Floors) && (split.index < Parking_Floors + Retail_Floors) : Retail_Floor
+		else: Parking
+			
+	else: 
+		case split.index < Parking_Floors: Parking
+		case (split.index >= Parking_Floors) && (split.index < Parking_Floors + Retail_Floors) : Retail_Floor
+		else: Multi_Res_Floor
+		
+#FloorTypes	
+
+Single_Res_Floor-->
+	case Visualization_Type != "Massing":
+		set(single_res_floor, geometry.area * sqfeet)
+		report("Single Family Area", geometry.area * sqfeet)
+		report("Single Family Units", single_res_floor / Square_Foot_Per_DU_SF)
+		color("#efdd87")
+		Facade_Visualization
+	else: Facade_Visualization
+		set(single_res_floor, geometry.area * sqfeet)
+		report("Single Family Area", geometry.area * sqfeet)
+		report("Single Family Units", single_res_floor / Square_Foot_Per_DU_SF)
+		Facade_Visualization	
+		
+Multi_Res_Floor-->
+	case Visualization_Type != "Massing":
+		set(multi_res_floor, geometry.area * sqfeet)
+		report("MultiFamily Area", geometry.area * sqfeet)
+		report("MultiFamily Units", multi_res_floor / Square_Foot_Per_DU_MS)
+		color("#CC8D71")
+		Facade_Visualization
+	else: 
+		set(multi_res_floor, geometry.area * sqfeet)
+		report("MultiFamily Area", geometry.area * sqfeet)
+		report("MultiFamily Units", multi_res_floor / Square_Foot_Per_DU_MS)
+		Facade_Visualization
+	
+Retail_Floor-->
+	case Visualization_Type != "Massing":
+		set(retail_floor, geometry.area * sqfeet)
+		report("Commercial Area", geometry.area * sqfeet)
+		report("Commercial Jobs", retail_floor / Square_Foot_Per_Job_Retail)
+		color("#DF7168")
+		Facade_Visualization
+	else:
+		set(retail_floor, geometry.area * sqfeet)
+		report("Commercial Area", geometry.area * sqfeet)
+		report("Commercial Jobs", retail_floor / Square_Foot_Per_Job_Retail)
+		Facade_Visualization
+		
+Office_Floor-->
+	case Visualization_Type != "Massing":
+		set(office_floor, geometry.area * sqfeet)
+		report("Office Area", geometry.area * sqfeet)
+		report("Office Jobs", office_floor / Square_Foot_Per_Job_Office)
+		color("#74a0c7")
+		Facade_Visualization
+	else: 
+		set(office_floor, geometry.area * sqfeet)
+		report("Office Area", geometry.area * sqfeet)
+		report("Office Jobs", office_floor / Square_Foot_Per_Job_Office)
+		Facade_Visualization
+		
+Industrial_Floor-->
+	case Visualization_Type != "Massing":
+		set(industrial_floor, geometry.area * sqfeet)
+		report("Industrial_Area", geometry.area * sqfeet)	
+		report("Industrial_Jobs", industrial_floor / Square_Foot_Per_Job_Industrial)
+		color("#51355A")
+		Facade_Visualization
+	else:
+		set(industrial_floor, geometry.area * sqfeet)
+		report("Industrial_Area", geometry.area * sqfeet)	
+		report("Industrial_Jobs", industrial_floor / Square_Foot_Per_Job_Industrial)
+		Facade_Visualization
+
+Institutional_Floor-->
+	case Visualization_Type != "Massing":
+		set(industrial_floor, geometry.area * sqfeet)
+		report("Institutional_Floor_Area", geometry.area * sqfeet)	
+		report("Institutional_Floor_Jobs", industrial_floor / Square_Foot_Per_Job_Institutional)
+		color("#c1b1be")
+		Facade_Visualization
+	else:
+		set(industrial_floor, geometry.area * sqfeet)
+		report("Institutional_Floor_Area", geometry.area * sqfeet)	
+		report("Institutional_Jobs", industrial_floor / Square_Foot_Per_Job_Institutional)
+		Facade_Visualization
+		
+Hotel_Floor-->
+	case Visualization_Type != "Massing":
+		set(hotel_floor, geometry.area * sqfeet)
+		report("Hotel_Area", geometry.area * sqfeet)
+		# report("ActivityMetrics.Residential Units", residential_floor / Residential_Units_Per_Sq_Foot)
+		color("#9E2B25")
+		Facade_Visualization
+	else:
+		set(hotel_floor, geometry.area * sqfeet)
+		report("Hotel_Area", geometry.area * sqfeet)
+		# report("ActivityMetrics.Residential Units", residential_floor / Residential_Units_Per_Sq_Foot)
+		Facade_Visualization	
+		
+Parking-->
+	case Visualization_Type != "Massing":
+		set(parking_floor, geometry.area * sqfeet)
+		report("Total Parking Area", geometry.area * sqfeet)
+	report("Total Parking Spaces", parking_floor / Square_Foot_Per_Parking)		
+		color("#878787")
+		Facade_Visualization	
+	else:
+		set(parking_floor, geometry.area * sqfeet)
+		report("Total Parking Area", geometry.area * sqfeet)
+	report("Total Parking Spaces", parking_floor / Square_Foot_Per_Parking)		
+		Facade_Visualization
+			
+Mass -->
+	case Visualization_Type == "Massing" :
+		Facade_Visualization
+	case Visualization_Type == "Massing w/ Colors" :
+		Facade_Visualization
+	case Visualization_Type == "Massing w/ Floors" :
+		set(material.opacity, Massing_Transparency) Facade_Visualization
+	else:
+		NIL
+
+
+## Add in colors for the Massing Model,
+## Add in single Use Buildings First then attempt the mixed use
+## Mixed Use will Require the split index in their case.
+		
+Facade_Visualization-->
+	case Visualization_Type == "Massing w/ Colors":
+		case Land_Use == "Retail": comp(f) { front: Retail_FloorColor |
+							back   : Retail_FloorColor |
+							left   : Retail_FloorColor |
+							right  : Retail_FloorColor |
+							top    : Retail_FloorColor |
+							bottom : Retail_FloorColor }
+		case Land_Use == "Single Family Residential": comp(f) { front: Single_Res_FloorColor |
+							back   : Single_Res_FloorColor |
+							left   : Single_Res_FloorColor |
+							right  : Single_Res_FloorColor |
+							top    : Single_Res_FloorColor |
+							bottom : Single_Res_FloorColor }	
+		case Land_Use == "Multifamily Residential": comp(f) { front: Multi_Res_FloorColor |
+							back   : Multi_Res_FloorColor |
+							left   : Multi_Res_FloorColor |
+							right  : Multi_Res_FloorColor |
+							top    : Multi_Res_FloorColor |
+							bottom : Multi_Res_FloorColor }
+		case Land_Use == "Office": comp(f) { front: Office_FloorColor |
+							back   : Office_FloorColor |
+							left   : Office_FloorColor |
+							right  : Office_FloorColor |
+							top    : Office_FloorColor |
+							bottom : Office_FloorColor }
+		case Land_Use == "Industrial": comp(f) { front: Industrial_FloorColor |
+							back   : Industrial_FloorColor |
+							left   : Industrial_FloorColor |
+							right  : Industrial_FloorColor |
+							top    : Industrial_FloorColor |
+							bottom : Industrial_FloorColor }
+		case Land_Use == "Hotel": comp(f) { front: Hotel_FloorColor |
+							back   : Hotel_FloorColor |
+							left   : Hotel_FloorColor |
+							right  : Hotel_FloorColor |
+							top    : Hotel_FloorColor |
+							bottom : Hotel_FloorColor }
+		case Land_Use == "Parking Garage": comp(f) { front: ParkingColor |
+							back   : ParkingColor |
+							left   : ParkingColor |
+							right  : ParkingColor |
+							top    : ParkingColor |
+							bottom : ParkingColor }
+		case Land_Use == "Mixed-Office": comp(f) { front: MixedOfficeColor |
+							back   : MixedOfficeColor |
+							left   : MixedOfficeColor |
+							right  : MixedOfficeColor |
+							top    : MixedOfficeColor |
+							bottom : MixedOfficeColor }
+		case Land_Use == "Mixed-Retail": comp(f) { front: MixedRetailColor |
+							back   : MixedRetailColor |
+							left   : MixedRetailColor |
+							right  : MixedRetailColor |
+							top    : MixedRetailColor |
+							bottom : MixedRetailColor }
+		case Land_Use == "Mixed-Parking": comp(f) { front: ParkingColor |
+							back   : MixedParkingColor |
+							left   : MixedParkingColor |
+							right  : MixedParkingColor |
+							top    : MixedParkingColor |
+							bottom : MixedParkingColor }
+		case Land_Use == "Institutional": comp(f) { front: InstitutionalColor |
+							back   : InstitutionalColor |
+							left   : InstitutionalColor |
+							right  : InstitutionalColor |
+							top    : InstitutionalColor |
+							bottom : InstitutionalColor }
+		else: EndShape.
+	else:
+		EndShape.
+		
+FacadeColor -->
+	color("#FA8258")
+	set(material.opacity, 1)
+	
+#FloorTypes	
+Single_Res_FloorColor-->
+	color("#efdd87")
+	set(material.opacity, 1)	
+	
+Multi_Res_FloorColor-->
+	color("#CC8D71")
+	set(material.opacity, 1)
+	
+Retail_FloorColor-->
+	color("#DF7168")
+	set(material.opacity, 1)
+	
+Office_FloorColor-->
+	color("#74a0c7")
+	set(material.opacity, 1)
+	
+Industrial_FloorColor-->
+	color("#51355A")
+	set(material.opacity, 1)
+
+InstitutionalColor-->
+	color("#c1b1be")
+	set(material.opacity, 1)
+	
+Hotel_FloorColor-->
+	color("#9E2B25")
+	set(material.opacity, 1)
+
+ParkingColor-->
+	color("#878787")
+	set(material.opacity, 1)
+	
+MixedRetailColor-->
+	color("#CC8D71")
+	set(material.opacity, 1)
+	
+MixedOfficeColor-->
+	color("#74a0c7")
+	set(material.opacity, 1)
+	
+MixedParkingColor-->
+	color("#B98B77")
+	set(material.opacity, 1)
+
+
+##############	
+### Styles ###
+##############	
+
+style Row_House
+attr Land_Use = "Single Family Residential"
+attr Floors = 2
+attr distanceStreet = 3.048
+attr distanceBuildings = 0
+attr Rear_Set_Use = "Parking"
+attr distanceRear = 12.192
+
+style Open_Space
+attr Land_Use = "Open Space"
+	
