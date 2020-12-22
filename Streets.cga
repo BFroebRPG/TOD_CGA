@@ -11,154 +11,162 @@ version "2019.1"
 @Enum("White", "Colors")
 attr visualMode = "White"
 
+@Group("Road Type", 2)
+@Order(1)
+@Enum("BRT Center Lane", "Primary Access", "Secondary Access", "Main/Walk Street",
+      "Alley Two-Way", "Alley One-Way", "Generic")
+attr streetType = "Primary Access"
+@Order(2)
+@Enum("Planter", "Divider", "Turn Lane")
+attr medianType = "Planter"
+
+@Group("Street Settings", 3)
+@Order()
+@Distance
+@Range(min = 0, max = 15, stepsize=0.3048)
+attr carLaneWidth = 3.6576
+@Order()
+@Distance
+@Range(min = 0, max = 15, stepsize=0.3048)
+attr brtLaneWidth = 4.2672
+@Order()
+@Distance
+@Range(min = 0, max = 15, stepsize=0.3048)
+attr bikeLaneWidth = 1.524
+@Order()
+@Distance
+@Range(min = 0, max = 15, stepsize=0.3048)
+attr parkingLaneWidth = 2.4384
+@Order()
+@Distance
+@Range(min = 0, max = 15, stepsize=0.3048)
+attr curbWidth = 0.6096
+@Order()
+@Distance
+@Range(min = 0, max = 15, stepsize=0.3048)
+attr shieldWidth = 0.6096
+@Order()
+@Distance
+@Range(min = 0, max = 15, stepsize=0.3048)
+attr medianWidth = 2.4384
+@Order()
+@Distance
+@Range(min = 0, max = 20, stepsize=0.3048)
+attr crosswalkBufferLength = 2.4384
+
+@Group("Sidewalk Type", 4)
+@Order(1)
+@Enum("BRT Left", "BRT Right", "Planter and Walk", "Sidewalk Only")
+attr sidewalkType = "Primary"
+
+@Group("Sidewalk Settings", 3)
+@Order(1)
+@Distance
+@Range(min = 0, max = 10, stepsize=0.3048)
+attr sidewalkWidth =  2.4384
+@Order(2)
+@Distance
+@Range(min = 0, max = 10, stepsize=0.3048)
+attr planterWidth = 1.524
 
 
-#################
-### Constants ###
-#################
+###########################
+### Constants and Hidden###
+###########################
 
+@Hidden
+attr streetLength = 0
 const sqfeet = 10.764
-# 1 foot = 0.3048 meters
-@Hidden
-attr BRT_Lane_14ft_Width = 4.2672 #14 feet
-@Hidden
-attr Bike_Lane_5ft_Width = 1.524 #5 ft
-@Hidden
-attr Curb_Width = 0.6096 #2 feet
-@Hidden
-attr Curb_BRT_Height = 0.9144 #3ft
-@Hidden
-attr Curb_Sidewalk_Height = 0.1016 # .33 feet
-@Hidden
-attr Shield_Width = 0.6096 # 2 feet
-@Hidden
-attr Shield_Height = 0.1016 # .33 feet
-@Hidden
-attr Car_Lane_11ft_Width = 3.3528 #11 feet
-@Hidden
-attr Car_Lane_10ft_Width = 3.048 #10 feet
-@Hidden
-attr Planting_3ft_Width = 0.9144 #5 ft
-@Hidden
-attr Planting_5ft_Width = 1.524 #5 ft
-@Hidden
-attr Planting_6ft_Width = 1.8288 #6 ft
-@Hidden
-attr Planting_8ft_Width = 2.4384 #8 ft
-@Hidden
-attr Parking_8ft_Width = 2.4384 #8 ft
-@Hidden
-attr Sidewalk_5ft_Width = 1.524 #5ft
-@Hidden
-attr Sidewalk_6ft_Width = 1.8288 #6ft
-@Hidden
-attr Sidewalk_8ft_Width = 2.4384 #8ft
-@Hidden
-attr Sidewalk_10ft_Width = 3.048 #8ft
-@Hidden
-attr Road_Type = "Null"
-
 
 ########################
 ### Road Start Rules ###
 ########################
 
-### Differing BRT Lanes, 3 type, 2 and 3 lanes with center running, and then center with median
-### Add in Coloring options
+### Sample Flow, make real after call
+
 @StartRule
-BRT_Center_Lane -->
-	set(Road_Type, "BRT")
-	report("Total Road Area", geometry.area * sqfeet)
-	split(v, unitSpace, 0){  Curb_Width	   : Curb_Sidewalk
-						   | Car_Lane_11ft_Width: CarLane
-						   | Car_Lane_11ft_Width: CarLane
-						   | Car_Lane_11ft_Width: CarLane
-						   | Shield_Width  : Sheild
-						   | BRT_Lane_14ft_Width: BRT_Lane
-						   | BRT_Lane_14ft_Width: BRT_Lane
-						   | Shield_Width  : Sheild	
-						   | Car_Lane_11ft_Width: CarLane
-						   | Car_Lane_11ft_Width: CarLane
-						   | Car_Lane_11ft_Width: CarLane
-						   | Car_Lane_11ft_Width: CarLane
-						   | Curb_Width    : Curb_Sidewalk
-						   }*
+Street --> 
+	set(streetLength, geometry.du(0,unitSpace))
+	report("Street Length", streetLength)
+	report("Total Road Area", geometry.area * sqfeet)	
+	split(u, unitSpace, 0){ crosswalkBufferLength : Crossing
+							| {streetLength -(2*crosswalkBufferLength) : CrossSection }
+							| crosswalkBufferLength : Crossing
+							}
+
+CrossSection --> 
+	case streetType == "BRT Center Lane":
+		report("Total Road Area", geometry.area * sqfeet)
+		split(v, unitSpace, 0){  curbWidth	   : Curb
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | shieldWidth  : Sheild
+							   | brtLaneWidth: BRTLane
+							   | brtLaneWidth: BRTLane
+							   | shieldWidth  : Sheild	
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | curbWidth    : Curb
+							   }	
+	case streetType == "Generic":
+		report("Total Road Area", geometry.area * sqfeet)
+		split(v, unitSpace, 0){ curbWidth	   : Curb
+        	                  | {carLaneWidth : CarLane }*
+						      | curbWidth    : Curb
+						      }
+	case streetType == "Primary Access":
+        report("Total Road Area", geometry.area * sqfeet)
+        split(v, unitSpace, 0){ curbWidth	   : Curb
+                            | carLaneWidth: CarLane
+                            | carLaneWidth: CarLane
+                            | curbWidth	   : Curb
+                            | medianWidth  : Median
+                            | curbWidth	   : Curb
+                            | carLaneWidth: CarLane
+                            | carLaneWidth: CarLane
+                            | curbWidth    : Curb
+                            }						      		
+	case streetType == "Secondary Access":
+        report("Total Road Area", geometry.area * sqfeet)
+        split(v, unitSpace, 0){ curbWidth	   : Curb
+                            | bikeLaneWidth: BikeLane
+                            | carLaneWidth: CarLane
+                            | carLaneWidth: CarLane
+                            | bikeLaneWidth: BikeLane
+                            | curbWidth    : Curb
+                            }
+	case streetType == "Main/Walk Street":	
+    	report("Total Road Area", geometry.area * sqfeet)
+        split(v, unitSpace, 0){ curbWidth	   : Curb
+                            | parkingLaneWidth: OnStreetParking
+                            | carLaneWidth: CarLane
+                            | carLaneWidth: CarLane
+                            | parkingLaneWidth: OnStreetParking
+                            | curbWidth    : Curb
+                            }
+	case streetType == "Alley Two-Way":
+        report("Total Road Area", geometry.area * sqfeet)
+        split(v, unitSpace, 0){ curbWidth	   : Curb
+                            | carLaneWidth: CarLane
+                            | carLaneWidth: CarLane
+                            | curbWidth    : Curb
+                            }
+	case streetType == "Alley One-Way":	
+    	report("Total Road Area", geometry.area * sqfeet)
+        split(v, unitSpace, 0){ curbWidth	   : Curb
+                            | carLaneWidth: CarLane
+                            | carLaneWidth: CarLane
+                            | curbWidth    : Curb
+                            }*
+	else: NIL
 	
-
-@StartRule
-PrimaryAccess -->
-	set(Road_Type, "Primary")
-	report("Total Road Area", geometry.area * sqfeet)
-	split(v, unitSpace, 0){ Curb_Width	   : Curb_Sidewalk
-					      | Car_Lane_11ft_Width: CarLane
-					      | Car_Lane_11ft_Width: CarLane
-					      | Curb_Width	   : Curb_Sidewalk
-					      | Planting_8ft_Width: Median
-					      | Curb_Width	   : Curb_Sidewalk
-					      | Car_Lane_11ft_Width: CarLane
-					      | Car_Lane_11ft_Width: CarLane
-					      | Curb_Width    : Curb_Sidewalk
-					      }*
-	
-
-@StartRule
-SecondaryAccess -->
-	set(Road_Type, "Secondary")
-	report("Total Road Area", geometry.area * sqfeet)
-	split(v, unitSpace, 0){ Curb_Width	   : Curb_Sidewalk
-					      | Bike_Lane_5ft_Width: BikeLane
-					      | Car_Lane_11ft_Width: CarLane
-					      | Car_Lane_11ft_Width: CarLane
-					      | Bike_Lane_5ft_Width: BikeLane
-					      | Curb_Width    : Curb_Sidewalk
-					      }*
-
-@StartRule
-Main_Walk_Street -->
-	set(Road_Type, "Main")
-	report("Total Road Area", geometry.area * sqfeet)
-	split(v, unitSpace, 0){ Curb_Width	   : Curb_Sidewalk
-					      | Parking_8ft_Width: OnStreetParking
-					      | Car_Lane_11ft_Width: CarLane
-					      | Car_Lane_11ft_Width: CarLane
-					      | Parking_8ft_Width: OnStreetParking
-					      | Curb_Width    : Curb_Sidewalk
-					      }*
-					      
-@StartRule						  
-TwoWayAlley -->
-	set(Road_Type, "Alley")
-	report("Total Road Area", geometry.area * sqfeet)
-	split(v, unitSpace, 0){ Curb_Width	   : Curb_Sidewalk
-					      | Car_Lane_10ft_Width: CarLane
-					      | Car_Lane_10ft_Width: CarLane
-					      | Curb_Width    : Curb_Sidewalk
-					      }*
-					      
-@StartRule						  
-OneWayAlley -->
-	set(Road_Type, "Alley")
-	report("Total Road Area", geometry.area * sqfeet)
-	split(v, unitSpace, 0){ Curb_Width	   : Curb_Sidewalk
-					      | Car_Lane_10ft_Width: CarLane
-					      | Car_Lane_10ft_Width: CarLane
-					      | Curb_Width    : Curb_Sidewalk
-					      }*
-					      
-					      
-@StartRule						  
-Generic_Street -->
-	set(Road_Type, "Alley")
-	report("Total Road Area", geometry.area * sqfeet)
-	split(v, unitSpace, 0){ Curb_Width	   : Curb_Sidewalk
-                          | {Car_Lane_10ft_Width : CarLane }*
-					      | Curb_Width    : Curb_Sidewalk
-					      }*		
-					      
+# Component Visulazations remain basically the same		      
 @StartRule						  
 Rail -->
-	color("#000000")			      
-
+	color("#2f2f2f")			      
 	
 @StartRule
 Crossing -->
@@ -167,56 +175,45 @@ Crossing -->
 @StartRule
 Junction -->
 	color("#FFFFFF")
+	
+@StartRule
+Freeway -->
+	color("#FFFFFF")
+	
+@StartRule
+Roundabout -->
+	color("#FFFFFF")
 
 ############################
 ### Sidewalk Start Rules ###
 ############################
 @StartRule
- BRT_Left_Sidewalk -->
-	report("Total Sidewalk Area", geometry.area * sqfeet)
-	split(v, unitSpace, 0){ Sidewalk_6ft_Width : SidewalkSurface }
+Sidewalk -->
+    case sidewalkType == "Planter and Walk":
+        report("Total Sidewalk Area", geometry.area * sqfeet)
+        split(v, unitSpace, 0){ planterWidth : Planter
+                              | sidewalkWidth : SidewalkSurface }	
 
-@StartRule
- BRT_Right_Sidewalk -->
-	report("Total Sidewalk Area", geometry.area * sqfeet)
-	split(v, unitSpace, 0){ Planting_6ft_Width : Planter
-						  | Sidewalk_10ft_Width : SidewalkSurface }	
+    case sidewalkType == "Sidewalk Only":
+        report("Total Sidewalk Area", geometry.area * sqfeet)
+	    SidewalkSurface
+	
+    case sidewalkType == "BRT Left":
+    	report("Total Sidewalk Area", geometry.area * sqfeet)
+	    SidewalkSurface
 
-@StartRule
-PrimarySideWalk -->
-	report("Total Sidewalk Area", geometry.area * sqfeet)
-	split(v, unitSpace, 0){ Planting_5ft_Width : Planter
-						  | Sidewalk_8ft_Width : SidewalkSurface }	
-
-@StartRule
-SecondarySideWalk -->
-	report("Total Sidewalk Area", geometry.area * sqfeet)
-	split(v, unitSpace, 0){ Planting_5ft_Width : Planter
-						  | Sidewalk_8ft_Width : SidewalkSurface }	
-						  
-@StartRule
-MainSideWalk -->
-	report("Total Sidewalk Area", geometry.area * sqfeet)
-	split(v, unitSpace, 0){ Planting_5ft_Width : Planter
-						  | Sidewalk_8ft_Width : SidewalkSurface }	
-		
-@StartRule
-AlleySideWalk -->
-	report("Total Sidewalk Area", geometry.area * sqfeet)
-	split(v, unitSpace, 0){ Planting_3ft_Width : Planter
-						  | Sidewalk_5ft_Width : SidewalkSurface }
-
-
-@StartRule
-Generic_Sidewalk -->
-	report("Total Sidewalk Area", geometry.area * sqfeet)
-	SidewalkSurface
+    case sidewalkType == "BRT Right":
+    	report("Total Sidewalk Area", geometry.area * sqfeet)
+        split(v, unitSpace, 0){ planterWidth : Planter
+                              | sidewalkWidth : SidewalkSurface }	
+    else: NIL
+    	
+    
 	
 #######################
 ### Component Rules ###
 #######################
-
-BRT_Lane -->
+BRTLane -->
 	comp(f){all : color("#B36A6D")Face.}
 	
 CarLane -->
@@ -224,46 +221,44 @@ CarLane -->
 		report("Road Area, No Parking", geometry.area * sqfeet)
 		comp(f){all : color("#FFFFFF")Face. }
 	else:
-		case Road_Type == "BRT":
+		case streetType == "BRT":
 			report("Road Area, No Parking", geometry.area * sqfeet)
 			comp(f){all : color("#FFFFFF")Face. }
-		case Road_Type == "Primary":
+		case streetType == "Primary":
 			report("Road Area, No Parking", geometry.area * sqfeet)
 			comp(f){all : color("#F26419")Face. }
-		case Road_Type == "Secondary":
+		case streetType == "Secondary":
 			report("Road Area, No Parking", geometry.area * sqfeet)
 			comp(f){all : color("#2F4858")Face. }
-		case Road_Type == "Main": 
+		case streetType == "Main": 
 			report("Road Area, No Parking", geometry.area * sqfeet)
 			comp(f){all : color("#D295BF")Face. }
-		case Road_Type == "Alley": 
+		case streetType == "Alley": 
 			report("Road Area, No Parking", geometry.area * sqfeet)
 			comp(f){all : color("#BDD0DB")Face. }
 		else: NIL	
 		
 		
-Curb_BRT -->
-	extrude(Curb_BRT_Height)
-	comp(f){all : color("#FFFFFF") }
-	
-Curb_Sidewalk -->
-	extrude(Curb_Sidewalk_Height)
-	comp(f){all : color("#FFFFFF") }
+Curb -->
+	color("#FFFFFF")
 
 Sheild -->
-	extrude(Shield_Height)
 	color("#FFFFFF")
 	
 SidewalkSurface -->
 	color("#A9A9A9")
 	
 Planter -->
-	extrude(Shield_Height)
 	color("#8CBA8C")
 	
 Median -->
-	extrude(Shield_Height)
-	color("#228B22")
+	case medianType == "Planter":
+		color("#8CBA8C")
+	case medianType == "Divider":
+		color("#3e4d54")
+	case medianType == "Turn Lane":
+		color("#FFFFFF")
+	else: NIL
 	
 BikeLane -->
 	report("Bike Lane Area", geometry.area * sqfeet)
@@ -274,6 +269,72 @@ OnStreetParking -->
 	report("Total Parking Area", geometry.area * sqfeet)
 	color("#878787")
 	
+##############	
+### Styles ###
+##############	
+
+### Streets
+
+style BRT_Center_Lane
+attr streetType = "BRT Center Lane"
+attr carLaneWidth = 3.3538
+attr brtLaneWidth = 4.2672
+attr shieldWidth  = 0.6096
+attr curbWidth = 0.6096
+attr crosswalkBufferLength = 6.096
+
+style Primary_Access
+attr streetType = "Primary Access"
+attr carLaneWidth = 3.3528
+attr medianWidth = 2.4384
+attr curbWidth = 0.6096
+attr crosswalkBufferLength = 6.096
+
+style Secondary_Access
+attr streetType = "Secondary Access"
+attr carLaneWidth = 3.3528
+attr bikeLaneWidth = 1.524
+attr curbWidth = 0.6096
+attr crosswalkBufferLength = 6.096
+
+style Main_Walk_Street
+attr streetType = "Main/Walk Street"
+attr carLaneWidth = 3.3528
+attr parkingLaneWidth = 2.4384
+attr curbWidth = 0.6096
+attr crosswalkBufferLength = 6.096
+
+style Two_Way_Alley
+attr streetType = "Alley Two-Way"
+attr carLaneWidth = 3.048
+attr curbWidth = 0.6096
+attr crosswalkBufferLength = 6.096
+
+style One_Way_Alley
+attr streetType = "Alley One-Way"
+attr carLaneWidth = 3.048
+attr curbWidth = 0.6096
+attr crosswalkBufferLength = 6.096
+
+### Sidewalks
+style Planter_and_Walk
+attr sidewalkType = "Planter and Walk"
+attr sidewalkWidth = 3.048
+attr planterWidth = 0.6096	
+
+style Sidewalk_Only
+attr sidewalkType = "Sidewalk Only"
+attr sidewalkWidth = 3.048
+attr planterWidth = 0.6096	
+
+style BRT_Right
+attr sidewalkType = "BRT Right"
+attr sidewalkWidth = 3.048
+attr planterWidth = 1.8288	
+
+style BRT_Left
+attr sidewalkType = "BRT Left"
+attr planterWidth = 1.8288
 	
 	
 	

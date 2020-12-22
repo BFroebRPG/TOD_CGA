@@ -18,15 +18,15 @@
     - Road Way, 34.4424 Meters (113 feet)
         - Curb: 0.6096 Meters (2 feet)
         - 4 Car Lanes: 3.3528 Meters (11 feet) each
-        - Shield: 0.1016 Meters (2 feet)
+        - Shield: 0.6096 Meters (2 feet)
         - 2 BRT Lanes: 4.2672 Meters (14 feet)
-        - Shield: 0.1016 Meters (2 feet)
+        - Shield: 0.6096 Meters (2 feet)
         - 3 Car Lanes: 3.3528 Meters (11 feet) each
         - Curb: 0.6096 Meters (2 feet)
 
     - Right Hand Sidewalk,  4.8768 meters (16 feet)
         - Planter: 1.8288 Meters (6 feet)
-        - Sidewalk: 3.048 Meters (8 feet)
+        - Sidewalk: 3.048 Meters (10 feet)
 
 
 ## Primary Access
@@ -72,7 +72,7 @@
 
     - Road Way, 18.288 meters (60 feet)
         - Curb: 0.6096 Meters (2 feet)
-        - Bike La
+        - Bike Lane: 1.524 Meters (5 feet)
         - 2 Car Lanes: 3.3528 Meters (11 feet) each
         - Bike Lane: 1.524 Meters (5 feet)
         - Curb: 0.6096 Meters (2 feet)
@@ -97,7 +97,7 @@
         - Curb:        0.6096 Meters (2 feet)
         - Parking:     2.4384 Meters (8 feet)
         - 2 Car Lanes: 3.3528 Meters (11 feet) each
-        - Bike Lane:   2.4384 Meters (8 feet)
+        - Parking:     2.4384 Meters (8 feet)
         - Curb:        0.6096 Meters (2 feet)
 
 ## Alley Two-Way
