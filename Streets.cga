@@ -51,7 +51,7 @@ attr shieldWidth = 0.6096
 attr medianWidth = 2.4384
 @Order()
 @Distance
-@Range(min = 0, max = 20, stepsize=0.3048)
+@Range(min = 0, max = 200, stepsize=0.3048)
 attr crosswalkBufferLength = 2.4384
 
 @Group("Sidewalk Type", 4)
