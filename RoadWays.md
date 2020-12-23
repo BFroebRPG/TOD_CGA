@@ -81,7 +81,7 @@
 
 - Street Parameters
     - ShapeCreation:      Enabled
-    - streetWidth:        13.1064 meters (42 feet)
+    - streetWidth:        12.8016 meters (42 feet)
     - streetOffset:       0
     - sidewalkWidthLeft:  3.9624 meters (13 feet)
     - sidewalkWidthRight: 3.9624 meters (13 feet)
@@ -106,8 +106,8 @@
     - ShapeCreation:      Enabled
     - streetWidth:        7.3152 meters (24 feet)
     - streetOffset:       0
-    - sidewalkWidthLeft:  3.9624 meters (8 feet)
-    - sidewalkWidthRight: 3.9624 meters (8 feet)
+    - sidewalkWidthLeft:  2.4384 meters (8 feet)
+    - sidewalkWidthRight: 2.4384 meters (8 feet)
     - percision:          0.5
     - laneWidth:          3.5 (not relevent)
     
@@ -127,8 +127,8 @@
     - ShapeCreation:      Enabled
     - streetWidth:        4.2672 meters (14 feet)
     - streetOffset:       0
-    - sidewalkWidthLeft:  3.9624 meters (8 feet)
-    - sidewalkWidthRight: 3.9624 meters (8 feet)
+    - sidewalkWidthLeft:  2.4384 meters (8 feet)
+    - sidewalkWidthRight: 2.4384 meters (8 feet)
     - percision:          0.5
     - laneWidth:          3.5 (not relevent)
     
