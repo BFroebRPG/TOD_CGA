@@ -21,37 +21,37 @@ attr streetType = "Primary Access"
 attr medianType = "Planter"
 
 @Group("Street Settings", 3)
-@Order()
+@Order(1)
 @Distance
 @Range(min = 0, max = 15, stepsize=0.3048)
 attr carLaneWidth = 3.6576
-@Order()
+@Order(2)
 @Distance
 @Range(min = 0, max = 15, stepsize=0.3048)
 attr brtLaneWidth = 4.2672
-@Order()
+@Order(3)
 @Distance
 @Range(min = 0, max = 15, stepsize=0.3048)
 attr bikeLaneWidth = 1.524
-@Order()
+@Order(4)
 @Distance
 @Range(min = 0, max = 15, stepsize=0.3048)
 attr parkingLaneWidth = 2.4384
-@Order()
+@Order(5)
 @Distance
 @Range(min = 0, max = 15, stepsize=0.3048)
 attr curbWidth = 0.6096
-@Order()
+@Order(6)
 @Distance
 @Range(min = 0, max = 15, stepsize=0.3048)
 attr shieldWidth = 0.6096
-@Order()
+@Order(7)
 @Distance
 @Range(min = 0, max = 15, stepsize=0.3048)
 attr medianWidth = 2.4384
-@Order()
+@Order(8)
 @Distance
-@Range(min = 0, max = 20, stepsize=0.3048)
+@Range(min = 0, max = 200, stepsize=0.3048)
 attr crosswalkBufferLength = 2.4384
 
 @Group("Sidewalk Type", 4)
@@ -59,7 +59,7 @@ attr crosswalkBufferLength = 2.4384
 @Enum("BRT Left", "BRT Right", "Planter and Walk", "Sidewalk Only")
 attr sidewalkType = "Primary"
 
-@Group("Sidewalk Settings", 3)
+@Group("Sidewalk Settings", 5)
 @Order(1)
 @Distance
 @Range(min = 0, max = 10, stepsize=0.3048)
@@ -69,6 +69,11 @@ attr sidewalkWidth =  2.4384
 @Range(min = 0, max = 10, stepsize=0.3048)
 attr planterWidth = 1.524
 
+@Group("Square Feet Per Unit", 6)
+@Description("Provide the conversion from Square Feet to Units of Housing, Jobs, etc.")
+@Order(1)
+@Range(min=200, max=1000, stepsize=10)
+attr Square_Foot_Per_Parking = 400
 
 ###########################
 ### Constants and Hidden###
@@ -266,7 +271,9 @@ BikeLane -->
 	
 OnStreetParking -->
 	report("On street Parking Area", geometry.area * sqfeet)
+	report("On Street Parking Spaces", geometry.area * sqfeet / Square_Foot_Per_Parking)
 	report("Total Parking Area", geometry.area * sqfeet)
+	report("Total Parking Spaces", geometry.area * sqfeet / Square_Foot_Per_Parking)
 	color("#878787")
 	
 ##############	
@@ -274,7 +281,6 @@ OnStreetParking -->
 ##############	
 
 ### Streets
-
 style BRT_Center_Lane
 attr streetType = "BRT Center Lane"
 attr carLaneWidth = 3.3538
@@ -317,24 +323,29 @@ attr curbWidth = 0.6096
 attr crosswalkBufferLength = 6.096
 
 ### Sidewalks
-style Planter_and_Walk
+style PandW_MainSideWalk
 attr sidewalkType = "Planter and Walk"
-attr sidewalkWidth = 3.048
-attr planterWidth = 0.6096	
+attr sidewalkWidth = 2.4384
+attr planterWidth = 1.524	
 
 style Sidewalk_Only
 attr sidewalkType = "Sidewalk Only"
 attr sidewalkWidth = 3.048
-attr planterWidth = 0.6096	
+attr planterWidth = 0
 
-style BRT_Right
+style BRT_Right_Sidewalk
 attr sidewalkType = "BRT Right"
 attr sidewalkWidth = 3.048
 attr planterWidth = 1.8288	
 
-style BRT_Left
+style BRT_Left_Sidewalk
 attr sidewalkType = "BRT Left"
 attr planterWidth = 1.8288
+
+style AlleySideWalk
+attr sidewalkType = "Planter and Walk"
+attr sidewalkWidth = 1.524	
+attr planterWidth = 0.9144	
 	
 	
 	

@@ -479,6 +479,8 @@ OpenSpace -->
 #add Total Parking Floor Area	
 ParkingLot -->
 	set(parking_floor, geometry.area * sqfeet)
+	report("Surface Parking Area", parking_floor)
+	report("Surface Parking Spaces", parking_floor / Square_Foot_Per_Parking)
 	report("Total Parking Area", parking_floor)
 	report("Total Parking Spaces", parking_floor / Square_Foot_Per_Parking)
 	color("#878787")
@@ -695,17 +697,15 @@ Roof -->
 	# add the yello color
 HouseRoof -->
 	40%: 
-		case Visualization_Type == "Massing w/Colors":
-			roofHip(30,1)
-			color("#efdd87")
+		case Visualization_Type == "Massing w/ Colors":
+			roofHip(30,1) color("#efdd87") 
 		else: 
-			roofHip(30,1)
+			roofHip(30,1) 
 	else: 
-		case Visualization_Type == "Massing w/Colors":
-			roofGable(30,1)
-			color("#efdd87")
+		case Visualization_Type == "Massing w/ Colors":
+			roofGable(30,1) color("#efdd87")
 		else: 
-			roofGable(30,1)
+			roofGable(30,1) 
 	
 Building-->
 	Mass
@@ -861,14 +861,18 @@ Hotel_Floor-->
 Parking-->
 	case Visualization_Type != "Massing":
 		set(parking_floor, geometry.area * sqfeet)
+		report("Structured Parking", geometry.area * sqfeet)
+		report("Structured Parking Spaces", parking_floor / Square_Foot_Per_Parking)
 		report("Total Parking Area", geometry.area * sqfeet)
-	report("Total Parking Spaces", parking_floor / Square_Foot_Per_Parking)		
+		report("Total Parking Spaces", parking_floor / Square_Foot_Per_Parking)		
 		color("#878787")
 		Facade_Visualization	
 	else:
 		set(parking_floor, geometry.area * sqfeet)
+		report("Structured Parking", geometry.area * sqfeet)
+		report("Structured Parking Spaces", parking_floor / Square_Foot_Per_Parking)
 		report("Total Parking Area", geometry.area * sqfeet)
-	report("Total Parking Spaces", parking_floor / Square_Foot_Per_Parking)		
+		report("Total Parking Spaces", parking_floor / Square_Foot_Per_Parking)		
 		Facade_Visualization
 			
 Mass -->
