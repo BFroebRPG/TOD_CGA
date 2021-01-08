@@ -241,7 +241,7 @@ Lot -->
                 report("Single Family Parcel Area", geometry.area * sqfeet)
                 report("Total Parcel Area", geometry.area * sqfeet)
                 setback(distanceStreet)
-                {streetSide: Parking 
+                {streetSide: ParkingLot 
                 | remainder: SubParcel}
             case Street_Set_Use == "Open Space":
                 report("Single Family Parcel Area", geometry.area * sqfeet)
@@ -261,7 +261,7 @@ Lot -->
                 report("Multifamily Parcel Area", geometry.area * sqfeet)
                 report("Total Parcel Area", geometry.area * sqfeet)
                 setback(distanceStreet)
-                {streetSide: Parking 
+                {streetSide: ParkingLot 
                 | remainder: SubParcel}
             case Street_Set_Use == "Open Space":
                 report("Multifamily Parcel Area", geometry.area * sqfeet)
@@ -281,7 +281,7 @@ Lot -->
                 report("Commercial Parcel Area", geometry.area * sqfeet)
                 report("Total Parcel Area", geometry.area * sqfeet)
                 setback(distanceStreet)
-                {streetSide: Parking 
+                {streetSide: ParkingLot 
                 | remainder: SubParcel}
             case Street_Set_Use == "Open Space":
                 report("Commercial Parcel Area", geometry.area * sqfeet)
@@ -301,7 +301,7 @@ Lot -->
                 report("Office Parcel Area", geometry.area * sqfeet)
                 report("Total Parcel Area", geometry.area * sqfeet)
                 setback(distanceStreet)
-                {streetSide: Parking 
+                {streetSide: ParkingLot 
                 | remainder: SubParcel}
             case Street_Set_Use == "Open Space":
                 report("Office Parcel Area", geometry.area * sqfeet)
@@ -321,7 +321,7 @@ Lot -->
                 report("Industrial Parcel Area", geometry.area * sqfeet)
                 report("Total Parcel Area", geometry.area * sqfeet)
                 setback(distanceStreet)
-                {streetSide: Parking 
+                {streetSide: ParkingLot 
                 | remainder: SubParcel}
             case Street_Set_Use == "Open Space":
                 report("Industrial Parcel Area", geometry.area * sqfeet)
@@ -341,7 +341,7 @@ Lot -->
                 report("Institutional Parcel Area", geometry.area * sqfeet)
                 report("Total Parcel Area", geometry.area * sqfeet)
                 setback(distanceStreet)
-                {streetSide: Parking 
+                {streetSide: ParkingLot 
                 | remainder: SubParcel}
             case Street_Set_Use == "Open Space":
                 report("Institutional Parcel Area", geometry.area * sqfeet)
@@ -361,7 +361,7 @@ Lot -->
                 report("Hotel Parcel Area", geometry.area * sqfeet)
                 report("Total Parcel Area", geometry.area * sqfeet)
                 setback(distanceStreet)
-                {streetSide: Parking 
+                {streetSide: ParkingLot 
                 | remainder: SubParcel}
             case Street_Set_Use == "Open Space":
                 report("Hotel Parcel Area", geometry.area * sqfeet)
@@ -381,7 +381,7 @@ Lot -->
                 report("Parking Parcel Area", geometry.area * sqfeet)
                 report("Total Parcel Area", geometry.area * sqfeet)
                 setback(distanceStreet)
-                {streetSide: Parking 
+                {streetSide: ParkingLot 
                 | remainder: SubParcel}
             case Street_Set_Use == "Open Space":
                 report("Parking Parcel Area", geometry.area * sqfeet)
@@ -402,7 +402,7 @@ Lot -->
                 report("Multifamily Parcel Area", geometry.area * sqfeet)
                 report("Total Parcel Area", geometry.area * sqfeet)
                 setback(distanceStreet)
-                {streetSide: Parking 
+                {streetSide: ParkingLot 
                 | remainder: SubParcel}
             case Street_Set_Use == "Open Space":
                 report("Commercial Parcel Area", geometry.area * sqfeet)
@@ -425,7 +425,7 @@ Lot -->
                 report("Office Parcel Area", geometry.area * sqfeet)
                 report("Total Parcel Area", geometry.area * sqfeet)
                 setback(distanceStreet)
-                {streetSide: Parking 
+                {streetSide: ParkingLot 
                 | remainder: SubParcel}
             case Street_Set_Use == "Open Space":
                 report("Commercial Parcel Area", geometry.area * sqfeet)
@@ -448,7 +448,7 @@ Lot -->
                 report("Parking Parcel Area", geometry.area * sqfeet)
                 report("Total Parcel Area", geometry.area * sqfeet)
                 setback(distanceStreet)
-                {streetSide: Parking 
+                {streetSide: ParkingLot 
                 | remainder: SubParcel}
             case Street_Set_Use == "Open Space":
                 report("Commercial Parcel Area", geometry.area * sqfeet)
@@ -488,7 +488,7 @@ ParkingLot -->
 SubParcel -->
 	case Build_Set_Use == "Parking":
 	setback(distanceBuildings)
-			{noStreetSide: Parking
+			{noStreetSide: ParkingLot
 			| remainder: RearSetBack}
 	case Build_Set_Use == "Open Space":
 		setback(distanceBuildings)
