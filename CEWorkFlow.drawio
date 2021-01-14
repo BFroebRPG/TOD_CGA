@@ -1,0 +1,64 @@
+<mxfile host="app.diagrams.net" modified="2021-01-13T18:25:21.376Z" agent="5.0 (Windows)" etag="mv18nt0J3yR9Rkr_J6zg" version="13.10.6" type="github">
+  <diagram id="EKg-61Se4BZf3TBGbB4Y" name="Page-1">
+    <mxGraphModel dx="1182" dy="761" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-1" value="&lt;font style=&quot;font-size: 20px&quot;&gt;WorkFlow &lt;br&gt;&lt;/font&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="270" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-2" value="This process is a CityEngine Work Flow.&amp;nbsp; When designing Station Areas to Targets derived from some form of allocaiton process. This workflow is begins after the allocation is complete." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="60" y="80" width="500" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="bpV8BkdjZ_9QRSof9rfs-3" target="bpV8BkdjZ_9QRSof9rfs-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="bpV8BkdjZ_9QRSof9rfs-3" target="bpV8BkdjZ_9QRSof9rfs-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-3" value="&lt;div&gt;Initial Meeting&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Discuss modeling and quantification needs for the project&lt;br&gt;&lt;/div&gt;" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="323" y="280" width="205" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-5" value="Tech Team Work" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="190" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-6" value="Design Team Work" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="190" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="bpV8BkdjZ_9QRSof9rfs-9" target="bpV8BkdjZ_9QRSof9rfs-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-9" value="&lt;div&gt;Fork CGA/Quantification Repositories and adjust code base according to project needs.&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Account for landuses and building/street typologies.&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="450" width="160" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="bpV8BkdjZ_9QRSof9rfs-11" target="bpV8BkdjZ_9QRSof9rfs-13">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="710" y="590" />
+              <mxPoint x="250" y="590" />
+              <mxPoint x="250" y="680" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-11" value="&lt;div&gt;Develop Initial design framework&lt;/div&gt;&lt;div&gt;&lt;br&gt;&lt;/div&gt;&lt;div&gt;Network improvements, block typologies etc&lt;br&gt;&lt;/div&gt;" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="630" y="450" width="160" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;" edge="1" parent="1" source="bpV8BkdjZ_9QRSof9rfs-13" target="bpV8BkdjZ_9QRSof9rfs-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-13" value="Setup Project Folder, quantification app install, and georeferencing initial designs" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="60" y="620" width="160" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-16" value="Build out 3d models and other graphics." style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="630" y="720" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.75;entryDx=0;entryDy=0;" edge="1" parent="1" source="bpV8BkdjZ_9QRSof9rfs-18" target="bpV8BkdjZ_9QRSof9rfs-16">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="bpV8BkdjZ_9QRSof9rfs-18" value="Provide ongoing code/technical support" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="80" y="800" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
