@@ -13,8 +13,13 @@ attr visualMode = "White"
 
 @Group("Road Type", 2)
 @Order(1)
-@Enum("BRT Center Lane", "Primary Access", "Secondary Access", "Main/Walk Street",
-      "Alley Two-Way", "Alley One-Way", "Generic")
+@Enum("BRT Center Lane", "BRT Center Lane, 4-3", 
+      "BRT Center Lane, 3-3", "BRT Center Lane, 2-2", 
+      "BRT Center Lane, Median", "BRT Peak Lane",
+      "BRT Northbound", "BRT Southbound",
+	  "Primary Access", "Secondary Access", 
+	  "Main/Walk Street", "Alley Two-Way", 
+	  "Alley One-Way", "Generic")
 attr streetType = "Primary Access"
 @Order(2)
 @Enum("Planter", "Divider", "Turn Lane")
@@ -100,71 +105,145 @@ Street -->
 							}
 
 CrossSection --> 
-	case streetType == "BRT Center Lane":
+	case streetType == "BRT Center Lane, 4-3":
 		report("Total Road Area", geometry.area * sqfeet)
-		split(v, unitSpace, 0){  curbWidth	   : Curb
+		split(v, unitSpace, 0){  curbWidth	 : Curb
 							   | carLaneWidth: CarLane
 							   | carLaneWidth: CarLane
 							   | carLaneWidth: CarLane
-							   | shieldWidth  : Sheild
+							   | shieldWidth : Sheild
 							   | brtLaneWidth: BRTLane
 							   | brtLaneWidth: BRTLane
-							   | shieldWidth  : Sheild	
+							   | shieldWidth : Sheild	
 							   | carLaneWidth: CarLane
 							   | carLaneWidth: CarLane
 							   | carLaneWidth: CarLane
 							   | carLaneWidth: CarLane
-							   | curbWidth    : Curb
+							   | curbWidth   : Curb
+							   }
+	case streetType == "BRT Center Lane, 3-3":
+		report("Total Road Area", geometry.area * sqfeet)
+		split(v, unitSpace, 0){  curbWidth	 : Curb
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | shieldWidth : Sheild
+							   | brtLaneWidth: BRTLane
+							   | brtLaneWidth: BRTLane
+							   | shieldWidth : Sheild	
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | curbWidth   : Curb
+							   }
+	case streetType == "BRT Center Lane, 2-2":
+		report("Total Road Area", geometry.area * sqfeet)
+		split(v, unitSpace, 0){  curbWidth	 : Curb
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | shieldWidth : Sheild
+							   | brtLaneWidth: BRTLane
+							   | brtLaneWidth: BRTLane
+							   | shieldWidth : Sheild	
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | curbWidth   : Curb
+							   }
+	case streetType == "BRT Peak Lane":
+		report("Total Road Area", geometry.area * sqfeet)
+		split(v, unitSpace, 0){  curbWidth	 : Curb
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | brtLaneWidth: BRTLane
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | curbWidth   : Curb
+							   }
+	case streetType == "BRT Center Lane, Median":
+		report("Total Road Area", geometry.area * sqfeet)
+		split(v, unitSpace, 0){  curbWidth	 : Curb
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | shieldWidth : Sheild
+							   | brtLaneWidth: BRTLane
+							   | curbWidth	 : Curb
+							   | medianWidth : Median
+							   | curbWidth	 : Curb
+							   | brtLaneWidth: BRTLane
+							   | shieldWidth : Sheild	
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | curbWidth   : Curb
+							   }
+	case streetType == "BRT Northbound":
+		report("Total Road Area", geometry.area * sqfeet)
+		split(v, unitSpace, 0){  curbWidth	 : Curb
+							   | brtLaneWidth: BRTLane
+							   | shieldWidth : Sheild
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   |  curbWidth	 : Curb
+							   }	
+	case streetType == "BRT Southbound":
+		report("Total Road Area", geometry.area * sqfeet)
+		split(v, unitSpace, 0){  curbWidth	 : Curb
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | carLaneWidth: CarLane
+							   | shieldWidth : Sheild
+							   | brtLaneWidth: BRTLane
+							   | curbWidth	 : Curb
 							   }	
 	case streetType == "Generic":
 		report("Total Road Area", geometry.area * sqfeet)
-		split(v, unitSpace, 0){ curbWidth	   : Curb
+		split(v, unitSpace, 0){ curbWidth	  : Curb
         	                  | {carLaneWidth : CarLane }*
-						      | curbWidth    : Curb
+						      | curbWidth     : Curb
 						      }
 	case streetType == "Primary Access":
         report("Total Road Area", geometry.area * sqfeet)
-        split(v, unitSpace, 0){ curbWidth	   : Curb
+        split(v, unitSpace, 0){ curbWidth : Curb
                             | carLaneWidth: CarLane
                             | carLaneWidth: CarLane
-                            | curbWidth	   : Curb
-                            | medianWidth  : Median
-                            | curbWidth	   : Curb
+                            | curbWidth	  : Curb
+                            | medianWidth : Median
+                            | curbWidth	  : Curb
                             | carLaneWidth: CarLane
                             | carLaneWidth: CarLane
-                            | curbWidth    : Curb
+                            | curbWidth   : Curb
                             }						      		
 	case streetType == "Secondary Access":
         report("Total Road Area", geometry.area * sqfeet)
-        split(v, unitSpace, 0){ curbWidth	   : Curb
+        split(v, unitSpace, 0){ curbWidth  : Curb
                             | bikeLaneWidth: BikeLane
-                            | carLaneWidth: CarLane
-                            | carLaneWidth: CarLane
+                            | carLaneWidth : CarLane
+                            | carLaneWidth : CarLane
                             | bikeLaneWidth: BikeLane
                             | curbWidth    : Curb
                             }
 	case streetType == "Main/Walk Street":	
     	report("Total Road Area", geometry.area * sqfeet)
-        split(v, unitSpace, 0){ curbWidth	   : Curb
+        split(v, unitSpace, 0){ curbWidth	  : Curb
                             | parkingLaneWidth: OnStreetParking
-                            | carLaneWidth: CarLane
-                            | carLaneWidth: CarLane
+                            | carLaneWidth    : CarLane
+                            | carLaneWidth    : CarLane
                             | parkingLaneWidth: OnStreetParking
-                            | curbWidth    : Curb
+                            | curbWidth       : Curb
                             }
 	case streetType == "Alley Two-Way":
         report("Total Road Area", geometry.area * sqfeet)
-        split(v, unitSpace, 0){ curbWidth	   : Curb
+        split(v, unitSpace, 0){ curbWidth : Curb
                             | carLaneWidth: CarLane
                             | carLaneWidth: CarLane
-                            | curbWidth    : Curb
+                            | curbWidth   : Curb
                             }
 	case streetType == "Alley One-Way":	
     	report("Total Road Area", geometry.area * sqfeet)
-        split(v, unitSpace, 0){ curbWidth	   : Curb
+        split(v, unitSpace, 0){ curbWidth : Curb
                             | carLaneWidth: CarLane
                             | carLaneWidth: CarLane
-                            | curbWidth    : Curb
+                            | curbWidth   : Curb
                             }*
 	else: NIL
 	
@@ -345,28 +424,4 @@ attr planterWidth = 1.8288
 style AlleySideWalk
 attr sidewalkType = "Planter and Walk"
 attr sidewalkWidth = 1.524	
-attr planterWidth = 0.9144	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-
-	
-	
-	
+attr planterWidth = 0.9144			
