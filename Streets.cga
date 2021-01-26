@@ -13,10 +13,10 @@ attr visualMode = "White"
 
 @Group("Road Type", 2)
 @Order(1)
-@Enum("BRT Center Lane", "BRT Center Lane, 4-3", 
+@Enum("BRT Center Lane, 4-3", 
       "BRT Center Lane, 3-3", "BRT Center Lane, 2-2", 
       "BRT Center Lane, Median", "BRT Peak Lane",
-      "BRT Northbound", "BRT Southbound",
+      "BRT Right Lane", "BRT Left Lane",
 	  "Primary Access", "Secondary Access", 
 	  "Main/Walk Street", "Alley Two-Way", 
 	  "Alley One-Way", "Generic")
@@ -175,20 +175,18 @@ CrossSection -->
 							   | carLaneWidth: CarLane
 							   | curbWidth   : Curb
 							   }
-	case streetType == "BRT Northbound":
+	case streetType == "BRT Right Lane":
 		report("Total Road Area", geometry.area * sqfeet)
 		split(v, unitSpace, 0){  curbWidth	 : Curb
 							   | brtLaneWidth: BRTLane
 							   | shieldWidth : Sheild
 							   | carLaneWidth: CarLane
 							   | carLaneWidth: CarLane
-							   | carLaneWidth: CarLane
-							   |  curbWidth	 : Curb
+							   | curbWidth	 : Curb
 							   }	
-	case streetType == "BRT Southbound":
+	case streetType == "BRT Left Lane":
 		report("Total Road Area", geometry.area * sqfeet)
 		split(v, unitSpace, 0){  curbWidth	 : Curb
-							   | carLaneWidth: CarLane
 							   | carLaneWidth: CarLane
 							   | carLaneWidth: CarLane
 							   | shieldWidth : Sheild
@@ -305,7 +303,25 @@ CarLane -->
 		report("Road Area, No Parking", geometry.area * sqfeet)
 		comp(f){all : color("#FFFFFF")Face. }
 	else:
-		case streetType == "BRT":
+		case streetType == "BRT Center Lane, 4-3":
+			report("Road Area, No Parking", geometry.area * sqfeet)
+			comp(f){all : color("#FFFFFF")Face. }
+		case streetType == "BRT Center Lane, 3-3":
+			report("Road Area, No Parking", geometry.area * sqfeet)
+			comp(f){all : color("#FFFFFF")Face. }
+		case streetType == "BRT Center Lane, 2-2":
+			report("Road Area, No Parking", geometry.area * sqfeet)
+			comp(f){all : color("#FFFFFF")Face. }
+		case streetType == "BRT Center Lane, Median":
+			report("Road Area, No Parking", geometry.area * sqfeet)
+			comp(f){all : color("#FFFFFF")Face. }
+		case streetType == "BRT Peak Lane":
+			report("Road Area, No Parking", geometry.area * sqfeet)
+			comp(f){all : color("#FFFFFF")Face. }
+		case streetType == "BRT Right Lane":
+			report("Road Area, No Parking", geometry.area * sqfeet)
+			comp(f){all : color("#FFFFFF")Face. }
+		case streetType == "BRT Left Lane":
 			report("Road Area, No Parking", geometry.area * sqfeet)
 			comp(f){all : color("#FFFFFF")Face. }
 		case streetType == "Primary":
