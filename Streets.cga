@@ -376,8 +376,57 @@ OnStreetParking -->
 ##############	
 
 ### Streets
-style BRT_Center_Lane
-attr streetType = "BRT Center Lane"
+style BRT_Center_Lane_4-3
+attr streetType = "BRT Center Lane, 4-3"
+attr carLaneWidth = 3.3538
+attr brtLaneWidth = 4.2672
+attr shieldWidth  = 0.6096
+attr curbWidth = 0.6096
+attr crosswalkBufferLength = 6.096
+
+style BRT_Center_Lane_3-3
+attr streetType = "BRT Center Lane, 3-3"
+attr carLaneWidth = 3.3538
+attr brtLaneWidth = 4.2672
+attr shieldWidth  = 0.6096
+attr curbWidth = 0.6096
+attr crosswalkBufferLength = 6.096
+
+style BRT_Center_Lane_2-2
+attr streetType = "BRT Center Lane, 2-2"
+attr carLaneWidth = 3.3538
+attr brtLaneWidth = 4.2672
+attr shieldWidth  = 0.6096
+attr curbWidth = 0.6096
+attr crosswalkBufferLength = 6.096
+
+style BRT_Center_Lane_Median
+attr streetType = "BRT Center Lane, Median"
+attr carLaneWidth = 3.3538
+attr brtLaneWidth = 4.2672
+attr medianWidth = 2.4384  #Subject to Change
+attr shieldWidth  = 0.6096
+attr curbWidth = 0.6096
+attr crosswalkBufferLength = 6.096
+
+style BRT_Peak_Lane
+attr streetType = "BRT Peak Lane"
+attr carLaneWidth = 3.3538
+attr brtLaneWidth = 4.2672
+attr shieldWidth  = 0.6096
+attr curbWidth = 0.6096
+attr crosswalkBufferLength = 6.096
+
+style BRT_Left_Lane
+attr streetType = "BRT Left Lane"
+attr carLaneWidth = 3.3538
+attr brtLaneWidth = 4.2672
+attr shieldWidth  = 0.6096
+attr curbWidth = 0.6096
+attr crosswalkBufferLength = 6.096
+
+style BRT_Right_Lane
+attr streetType = "BRT Right Lane"
 attr carLaneWidth = 3.3538
 attr brtLaneWidth = 4.2672
 attr shieldWidth  = 0.6096
