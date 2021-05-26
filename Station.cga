@@ -1,0 +1,12 @@
+/**
+ * File:    Station.cga
+ * Created: 18 Jan 2021 23:19:19 GMT
+ * Author:  RI2user
+ */
+
+version "2019.1"
+
+Lot -->
+	color("#000000")
+	primitiveDisk(16, 50) 
+	extrude(1)

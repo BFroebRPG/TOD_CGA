@@ -1,0 +1,11 @@
+/**
+ * File:    Alignment.cga
+ * Created: 18 Jan 2021 23:35:20 GMT
+ * Author:  RI2user
+ */
+
+version "2019.1"
+
+Street -->
+	color("#778899")
+	extrude(5)

@@ -1,0 +1,35 @@
+/**
+ * File:    PlaceType.cga
+ * Created: 18 Jan 2021 22:12:19 GMT
+ * Author:  RI2user
+ */
+
+version "2019.1"
+
+@Enum("Downtown Employment", "Downtown Neighborhood", 
+	  "Employment Hub", "Town Center", "Neighborhood")
+attr StationType = "Downtown Employment"
+
+@Range(min =0, max = 1, stepsize = 0.1)
+attr opacity = 0.3
+
+@StartRule
+Lot -->
+	case StationType == "Downtown Employment":
+		color("#687F9D")
+		set(material.opacity, opacity)
+	case StationType == "Downtown Neighborhood":
+		color("#E09574")
+		set(material.opacity, opacity)
+	case StationType == "Employment Hub":
+		color("#88D7D9")
+		set(material.opacity, opacity)
+	case StationType == "Town Center":
+		color("#F8CB69")
+		set(material.opacity, opacity)
+	case StationType == "Neighborhood":
+		color("#E6E86E")
+		set(material.opacity, opacity)
+	else: NIL	
+	
+		

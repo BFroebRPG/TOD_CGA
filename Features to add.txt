@@ -1,0 +1,3 @@
+Features to Add to Buildings.cga
+
+	Add in additional open space classes (Enviornmental, Usable, etc.)
