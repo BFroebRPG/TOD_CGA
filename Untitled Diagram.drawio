@@ -1,1 +1,40 @@
-<mxfile host="app.diagrams.net" modified="2022-02-24T15:15:03.586Z" agent="5.0 (Windows)" version="15.9.4" etag="1kTOfpeVRQYhk21SmVH-" type="github"><diagram id="hYnlxmEQNJBrPgdXeDPa">UzV2zq1wL0osyPDNT0nNUTV2VTV2LsrPL4GwciucU3NyVI0MMlNUjV1UjYwMgFjVyA2HrCFY1qAgsSg1rwSLBiADYTaQg2Y1AA==</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2022-02-24T15:50:08.448Z" agent="5.0 (Windows)" etag="LVrquBSiAa5K4AjC3vYO" version="15.9.4" type="github">
+  <diagram id="hYnlxmEQNJBrPgdXeDPa" name="Page-1">
+    <mxGraphModel dx="1422" dy="780" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="gLB0f7LhgVHf9xm7KnSe-1" value="&lt;div align=&quot;left&quot;&gt;LOD reporting &lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;align=left;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="20" y="40" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="gLB0f7LhgVHf9xm7KnSe-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="gLB0f7LhgVHf9xm7KnSe-3" target="gLB0f7LhgVHf9xm7KnSe-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gLB0f7LhgVHf9xm7KnSe-7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="gLB0f7LhgVHf9xm7KnSe-3" target="gLB0f7LhgVHf9xm7KnSe-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gLB0f7LhgVHf9xm7KnSe-3" value="&lt;div&gt;LOD Visual&lt;br&gt;&lt;/div&gt;" style="whiteSpace=wrap;html=1;aspect=fixed;align=center;rounded=1;" vertex="1" parent="1">
+          <mxGeometry x="550" y="50" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="gLB0f7LhgVHf9xm7KnSe-4" value="&lt;ol&gt;&lt;li&gt;Blocks&lt;/li&gt;&lt;li&gt;Articulated Blocks&lt;/li&gt;&lt;li&gt;Facade Articulation&lt;br&gt;&lt;/li&gt;&lt;/ol&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="330" y="230" width="240" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="gLB0f7LhgVHf9xm7KnSe-11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" edge="1" parent="1" source="gLB0f7LhgVHf9xm7KnSe-5" target="gLB0f7LhgVHf9xm7KnSe-10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="gLB0f7LhgVHf9xm7KnSe-5" value="&lt;ol&gt;&lt;li&gt;Massing&lt;/li&gt;&lt;li&gt;Massing w/ Floors&lt;/li&gt;&lt;li&gt;Massing w/ Colors&lt;/li&gt;&lt;li&gt;Massing w/ Land Use&lt;/li&gt;&lt;li&gt;Facade Texture&lt;br&gt;&lt;/li&gt;&lt;li&gt;Facade Articulation&lt;br&gt;&lt;/li&gt;&lt;/ol&gt;" style="rounded=1;whiteSpace=wrap;html=1;align=left;" vertex="1" parent="1">
+          <mxGeometry x="610" y="230" width="180" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="gLB0f7LhgVHf9xm7KnSe-8" value="Massing" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="420" y="230" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="gLB0f7LhgVHf9xm7KnSe-9" value="Facade" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="680" y="230" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="gLB0f7LhgVHf9xm7KnSe-10" value="Modifiable Colors and facade" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="910" y="255" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
